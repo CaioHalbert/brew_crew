@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget 
 {
+
+  final Function toggleView;
+  SignIn({ this.toggleView });
+
   @override
   _SignInState createState() => _SignInState();
 }
@@ -13,6 +17,10 @@ class _SignInState extends State<SignIn>
 {
   // gravo o serviço em uma variavel para acessar a classe de autenticação
   final AuthService _auth = AuthService();
+
+  // Variaveis para armazenar email e senha
+  String email = '';
+  String senha = '';
 
   @override
   Widget build(BuildContext context) 
@@ -25,7 +33,21 @@ class _SignInState extends State<SignIn>
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
         title: Text('Sign In to Brew Crew'),
+        actions: <Widget>
+        [
+          FlatButton.icon
+          (
+            onPressed: () 
+            {
+              widget.toggleView();
+            }, 
+            icon: Icon(Icons.person), 
+            label: Text("Register")
+            )
+        ],
+
       ),
+
       body: Container
       (
         child: Padding
@@ -34,23 +56,50 @@ class _SignInState extends State<SignIn>
           (
             vertical: 25,
             horizontal: 15,
+
           ),
-          child: RaisedButton
+
+          child: Form
           (
-            child: Text('Sign In Anon'),
-            onPressed: () 
-              async
-              {
-                dynamic result = await _auth.aignInAnon();
-                if (result == null)
-                {
-                  print('error signIn');
-                }else
-                {
-                  print('signed In');
-                  print(result.uid);
-                }
-              },
+            child: Column
+            (
+              children: <Widget>
+              [
+                SizedBox(height: 20.0,),
+
+                TextFormField
+                (
+                  onChanged: (val) 
+                  {
+                    setState(() => email = val);
+                  },
+                ),
+
+                SizedBox(height: 20.0,),
+
+                TextFormField
+                (
+                  obscureText: true,
+                  onChanged: (val) 
+                  {
+                    setState(() => senha = val);
+                  },
+                ),
+
+                SizedBox(height: 20.0,),
+
+                RaisedButton
+                (
+                  color: Colors.pink[400],
+                  child: Text("Sign In", style: TextStyle(color: Colors.white),),
+                  onPressed: () async
+                  {
+                    print(email);
+                    print(senha);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -40,4 +40,16 @@ class AuthService
   // sign in Email/Senha
 
   //sign Out
+  Future signOut() async
+  {
+    try
+    {
+      return await _auth.signOut();
+    }
+    catch(e)
+    {
+      print(e.toString());
+      return null;
+    }
+  }
 }
