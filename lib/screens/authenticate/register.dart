@@ -15,10 +15,12 @@ class _RegisterState extends State<Register>
 
     // gravo o serviço em uma variavel para acessar a classe de autenticação
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   // Variaveis para armazenar email e senha
   String email = '';
   String senha = '';
+  String erro  = '';
 
 
   @override
@@ -60,6 +62,7 @@ class _RegisterState extends State<Register>
 
           child: Form
           (
+            key: _formKey,
             child: Column
             (
               children: <Widget>
@@ -68,6 +71,7 @@ class _RegisterState extends State<Register>
 
                 TextFormField
                 (
+                  validator: (val) => val.isEmpty ? "Enter an E-mail" : null,
                   onChanged: (val) 
                   {
                     setState(() => email = val);
@@ -78,6 +82,7 @@ class _RegisterState extends State<Register>
 
                 TextFormField
                 (
+                  validator: (val) => val.length < 6 ? "Enter an passwor 6+ char long" : null,
                   obscureText: true,
                   onChanged: (val) 
                   {
@@ -93,10 +98,24 @@ class _RegisterState extends State<Register>
                   child: Text("Sign Up", style: TextStyle(color: Colors.white),),
                   onPressed: () async
                   {
-                    print(email);
-                    print(senha);
+                    if(_formKey.currentState.validate())
+                    {
+                      dynamic result = await _auth.registerWithEmailAndPassword(email, senha);
+                      if(result == null)
+                      {
+                        setState(() => erro = "Use um email ou senha válidos");
+                      }
+                    }
                   },
                 ),
+
+                SizedBox(height: 12.0),
+
+                Text
+                (
+                  erro,
+                  style: TextStyle(color: Colors.red),
+                )
               ],
             ),
           ),

@@ -17,10 +17,12 @@ class _SignInState extends State<SignIn>
 {
   // gravo o serviço em uma variavel para acessar a classe de autenticação
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   // Variaveis para armazenar email e senha
   String email = '';
   String senha = '';
+  String erro  = '';
 
   @override
   Widget build(BuildContext context) 
@@ -61,6 +63,7 @@ class _SignInState extends State<SignIn>
 
           child: Form
           (
+            key: _formKey,
             child: Column
             (
               children: <Widget>
@@ -69,6 +72,7 @@ class _SignInState extends State<SignIn>
 
                 TextFormField
                 (
+                  validator: (val) => val.length < 6 ? "Enter an passwor 6+ char long" : null,
                   onChanged: (val) 
                   {
                     setState(() => email = val);
@@ -79,6 +83,7 @@ class _SignInState extends State<SignIn>
 
                 TextFormField
                 (
+                  validator: (val) => val.length < 6 ? "Enter an passwor 6+ char long" : null,
                   obscureText: true,
                   onChanged: (val) 
                   {
@@ -94,10 +99,24 @@ class _SignInState extends State<SignIn>
                   child: Text("Sign In", style: TextStyle(color: Colors.white),),
                   onPressed: () async
                   {
-                    print(email);
-                    print(senha);
+                    if(_formKey.currentState.validate())
+                    {
+                      dynamic result = await _auth.signInWithEmailAndPassword(email, senha);
+                      if(result == null)
+                      {
+                        setState(() => erro = "Usuário ou senha não Inválidos");
+                      }
+                    }
                   },
                 ),
+
+                SizedBox(height: 12.0),
+
+                Text
+                (
+                  erro,
+                  style: TextStyle(color: Colors.red),
+                )
               ],
             ),
           ),
