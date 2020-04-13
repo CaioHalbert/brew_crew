@@ -1,4 +1,6 @@
 import 'package:brew_crew/services/auth.dart';
+import 'package:brew_crew/shared/constants.dart';
+import 'package:brew_crew/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget 
@@ -15,7 +17,8 @@ class _RegisterState extends State<Register>
 
     // gravo o serviço em uma variavel para acessar a classe de autenticação
   final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
+  final _formKey          = GlobalKey<FormState>();
+  bool loading            = false;
 
   // Variaveis para armazenar email e senha
   String email = '';
@@ -26,7 +29,7 @@ class _RegisterState extends State<Register>
   @override
   Widget build(BuildContext context) 
   {
-    return Scaffold
+    return loading ? Loading() : Scaffold
     (
       backgroundColor: Colors.brown[100],
       appBar: AppBar
@@ -71,6 +74,7 @@ class _RegisterState extends State<Register>
 
                 TextFormField
                 (
+                  decoration: textInputDecoration.copyWith(hintText: 'E-mail'),
                   validator: (val) => val.isEmpty ? "Enter an E-mail" : null,
                   onChanged: (val) 
                   {
@@ -82,6 +86,7 @@ class _RegisterState extends State<Register>
 
                 TextFormField
                 (
+                  decoration: textInputDecoration.copyWith(hintText: 'Senha'),
                   validator: (val) => val.length < 6 ? "Enter an passwor 6+ char long" : null,
                   obscureText: true,
                   onChanged: (val) 
@@ -100,10 +105,15 @@ class _RegisterState extends State<Register>
                   {
                     if(_formKey.currentState.validate())
                     {
+                      setState(() => loading = true);
                       dynamic result = await _auth.registerWithEmailAndPassword(email, senha);
                       if(result == null)
                       {
-                        setState(() => erro = "Use um email ou senha válidos");
+                        setState(() => 
+                        {
+                          erro = "Use um email ou senha válidos",
+                          loading = false,
+                        });
                       }
                     }
                   },

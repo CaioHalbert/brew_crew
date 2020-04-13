@@ -1,6 +1,8 @@
 // Pagina de login
 
 import 'package:brew_crew/services/auth.dart';
+import 'package:brew_crew/shared/constants.dart';
+import 'package:brew_crew/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget 
@@ -17,7 +19,8 @@ class _SignInState extends State<SignIn>
 {
   // gravo o serviço em uma variavel para acessar a classe de autenticação
   final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
+  final _formKey          = GlobalKey<FormState>();
+  bool loading            = false;
 
   // Variaveis para armazenar email e senha
   String email = '';
@@ -27,7 +30,7 @@ class _SignInState extends State<SignIn>
   @override
   Widget build(BuildContext context) 
   {
-    return Scaffold
+    return loading ? Loading() : Scaffold
     (
       backgroundColor: Colors.brown[100],
       appBar: AppBar
@@ -72,7 +75,8 @@ class _SignInState extends State<SignIn>
 
                 TextFormField
                 (
-                  validator: (val) => val.length < 6 ? "Enter an passwor 6+ char long" : null,
+                  decoration: textInputDecoration.copyWith(hintText: 'E-mail'),
+                  validator: (val) => val.isEmpty ? "Enter an Valid E-mail" : null,
                   onChanged: (val) 
                   {
                     setState(() => email = val);
@@ -83,6 +87,7 @@ class _SignInState extends State<SignIn>
 
                 TextFormField
                 (
+                  decoration: textInputDecoration.copyWith(hintText: 'Senha'),
                   validator: (val) => val.length < 6 ? "Enter an passwor 6+ char long" : null,
                   obscureText: true,
                   onChanged: (val) 
@@ -101,10 +106,15 @@ class _SignInState extends State<SignIn>
                   {
                     if(_formKey.currentState.validate())
                     {
+                      setState(() => loading = true);
                       dynamic result = await _auth.signInWithEmailAndPassword(email, senha);
                       if(result == null)
                       {
-                        setState(() => erro = "Usuário ou senha não Inválidos");
+                        setState(() => 
+                        {
+                          erro = "Usuário ou senha não Inválidos",
+                          loading = false,
+                        });
                       }
                     }
                   },
