@@ -1,6 +1,7 @@
 // Classe criada para gerenciar os tipos de autenticação
 
 import 'package:brew_crew/models/user.dart';
+import 'package:brew_crew/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService
@@ -44,6 +45,9 @@ class AuthService
     {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: senha);
       FirebaseUser user = result.user;
+      
+      //Cria um novo usuario no firebase atravez o UID
+      await DatabaseService(uid: user.uid).updateUserData('0', '0', 100);
       return _userFirebaseUser(user);
     }
     catch(e)
