@@ -47,7 +47,7 @@ class AuthService
       FirebaseUser user = result.user;
       
       //Cria um novo usuario no firebase atravez o UID
-      await DatabaseService(uid: user.uid).updateUserData('0', '0', 100);
+      await DatabaseService(uid: user.uid).updateUserData('0', 'Member of crew', 100);
       return _userFirebaseUser(user);
     }
     catch(e)

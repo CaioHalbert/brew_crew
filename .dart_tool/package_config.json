@@ -251,10 +251,10 @@
       "name": "brew_crew",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-04-13T19:58:56.172694Z",
+  "generated": "2020-04-17T22:30:12.048289Z",
   "generator": "pub",
-  "generatorVersion": "2.7.0"
+  "generatorVersion": "2.7.2"
 }
