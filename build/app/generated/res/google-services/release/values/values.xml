@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">905096777856-h3lch2602cm94clkgd53gkdsrf5e3qi0.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://brew-crew-back.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">905096777856</string>
+    <string name="google_api_key" translatable="false">AIzaSyCKDodEciaK4q--YxovYlUzndmuB5OJC_g</string>
+    <string name="google_app_id" translatable="false">1:905096777856:android:4ffd349113a21b4b64d665</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCKDodEciaK4q--YxovYlUzndmuB5OJC_g</string>
+    <string name="google_storage_bucket" translatable="false">brew-crew-back.appspot.com</string>
+    <string name="project_id" translatable="false">brew-crew-back</string>
+</resources>

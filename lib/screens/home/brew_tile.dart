@@ -21,6 +21,7 @@ class BrewTile extends StatelessWidget
           (
             radius: 25.0,
             backgroundColor: Colors.brown[brew.strength],
+            backgroundImage: AssetImage('asset/coffee_icon.png'),
           ),
           title: Text(brew.name),
           subtitle: Text('Takes ${brew.sugar} sugars(s)'),
